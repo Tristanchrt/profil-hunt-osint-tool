@@ -1,0 +1,67 @@
+version: "3"
+
+networks:
+  ph-test:
+    external: true
+
+services:
+  graph_service:
+    build: .
+    container_name: ph_graph
+    ports:
+      - "8082:8080"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "uvicorn app:app --host 0.0.0.0 --port 8080 --reload"
+    depends_on:
+      - loaded
+      - datalake
+    env_file:
+      - .env
+    networks:
+      - ph-test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.graph_service.rule=Host(`ph.local`) && PathPrefix(`/graph`) && !Method(`OPTIONS`)"
+
+  # sc_redis:
+  #   container_name: ph_sc_redis_cache
+  #   image: redis
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis:/data
+  #   networks:
+  #     - ph-test
+
+  loaded:
+    image: mongo
+    container_name: ph_loaded
+    ports:
+      - 27018:27017
+    volumes:
+      - ~/db/loaded/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test123
+      - MONGO_INITDB_DATABASE=development=testdb
+    networks:
+      - ph-test
+  datalake:
+    image: mongo
+    container_name: ph_datalake
+    ports:
+      - 27020:27017
+    volumes:
+      - ~/db/datalake/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test123
+      - MONGO_INITDB_DATABASE=development=testdb
+    networks:
+      - ph-test
+
+volumes:
+  redis:
+    driver: local

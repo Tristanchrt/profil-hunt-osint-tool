@@ -1,0 +1,6 @@
+selenium
+pydantic[email,dotenv]~=1.9.0
+brokerstream==0.0.13
+kafka-python~=2.0.2
+beautifulsoup4
+lxml

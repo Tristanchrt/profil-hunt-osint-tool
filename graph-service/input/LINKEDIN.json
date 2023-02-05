@@ -1,0 +1,158 @@
+{
+    "profile": [
+        {
+            "name": "Raphael Rabechault",
+            "company": "Software Engineer chez Framatome",
+            "link": null,
+            "num": null,
+            "mail": null,
+            "birthday": null
+        }
+    ],
+    "education": [
+        {
+            "school": "CPE Lyon",
+            "info": "Ingenieur en informatique et cybers\u00e9curit\u00e9",
+            "date_start": "sept. 2020 ",
+            "date_end": " 2023"
+        },
+        {
+            "school": "Institution des Chartreux",
+            "info": "BTS, SIO",
+            "date_start": "2017 ",
+            "date_end": " 2019"
+        },
+        {
+            "school": "ORT Lyon",
+            "info": "Baccalaur\u00e9at, STI2D",
+            "date_start": "2014 ",
+            "date_end": " 2017"
+        }
+    ],
+    "experience": [
+        {
+            "job": "Ing\u00e9nieur DevSecOps",
+            "company": "IDEMIA ",
+            "contract": " Contrat en alternance",
+            "date_start": "sept. 2021 ",
+            "date_end": " aujourd\u2019hui ",
+            "city": "Osny",
+            "country": "France",
+            "state": "\u00cele-de-France",
+            "area_info": "Osny, \u00cele-de-France, France"
+        },
+        {
+            "job": "Ing\u00e9nieur DevSecOps",
+            "company": "NGTV Experience ",
+            "contract": " Stage",
+            "date_start": "juin 2021 ",
+            "date_end": " ao\u00fbt 2021 ",
+            "city": "Bron",
+            "country": "France",
+            "state": "Auvergne-Rh\u00f4ne-Alpes",
+            "area_info": "Bron, Auvergne-Rh\u00f4ne-Alpes, France"
+        },
+        {
+            "job": "SysAdmin",
+            "company": "CEFIT ",
+            "contract": " Contrat en alternance",
+            "date_start": "sept. 2019 ",
+            "date_end": " sept. 2020 ",
+            "area_info": null
+        }
+    ],
+    "relations": [
+        {
+            "names": [
+                "MOINE",
+                "Alexandre"
+            ],
+            "job_description": "Ing\u00e9nieur D\u00e9veloppement chez Alteca",
+            "city": "Lyon",
+            "country": "France",
+            "state": "Auvergne-Rh\u00f4ne-Alpes"
+        },
+        {
+            "names": [
+                "Mercier",
+                "Jean-Baptiste"
+            ],
+            "job_description": "Ing\u00e9nieur syst\u00e8mes et r\u00e9seaux chez EQUANS France",
+            "city": "Lyon",
+            "country": "France",
+            "state": "Auvergne-Rh\u00f4ne-Alpes"
+        },
+        {
+            "names": [
+                "Mustafa",
+                "Harbutoglu"
+            ],
+            "job_description": "\u00c9tudiant Ing\u00e9nieur Informatique et CyberS\u00e9curit\u00e9",
+            "city": "Lyon",
+            "country": "France",
+            "state": "Auvergne-Rh\u00f4ne-Alpes"
+        },
+        {
+            "names": [
+                "Emile",
+                "M."
+            ],
+            "job_description": "Student Computer Science Engineering - Apprenticeship SRE / Cloud Engineer (DevOps) at Skyloud | Actively Seeking Internship Abroad for Summer 2023",
+            "city": "Lyon",
+            "country": "France",
+            "state": "Auvergne-Rh\u00f4ne-Alpes"
+        },
+        {
+            "names": [
+                "Angot",
+                "Paul"
+            ],
+            "job_description": "D\u00e9veloppeur Full Stack"
+        },
+        {
+            "names": [
+                "GALAN",
+                "Adrien"
+            ],
+            "job_description": "D\u00e9veloppeur web"
+        },
+        {
+            "names": [
+                "Migliarini",
+                "Lucas"
+            ],
+            "job_description": "\u00c9tudiant \u00e0 CPE Lyon - Informatique et Cybers\u00e9curit\u00e9"
+        },
+        {
+            "names": [
+                "MORREALE",
+                "Ambre"
+            ],
+            "job_description": "Stagiaire Assistante Ing\u00e9nieure Recyclabilit\u00e9",
+            "city": "Paris",
+            "country": "France",
+            "state": "\u00cele-de-France"
+        },
+        {
+            "names": [
+                "Villard",
+                "Samuel"
+            ],
+            "job_description": "D\u00e9veloppeur logiciels chez Inetum en mission au sein de la M\u00e9tropole de Lyon"
+        },
+        {
+            "names": [
+                "Ozdemir",
+                "Yusa"
+            ],
+            "job_description": "Alternant administrateur syst\u00e8mes, r\u00e9seaux et s\u00e9curit\u00e9 chez IPLine (Master)"
+        },
+        {
+            "names": [
+                "Besse",
+                "Thomas"
+            ],
+            "job_description": "Apprenti ing\u00e9nieur en cybers\u00e9curit\u00e9, certifi\u00e9 Fortinet NSE4 "
+        }
+    ]
+}

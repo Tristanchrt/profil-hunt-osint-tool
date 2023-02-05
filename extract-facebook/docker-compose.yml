@@ -1,0 +1,19 @@
+version: '3.7'
+
+networks:
+  ph-test:
+   external: true
+services:
+  extract-facebook:
+    container_name: ph_extract_facebook
+    build: .
+    command: >
+      sh -c "python -u ./main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+
+

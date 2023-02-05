@@ -1,0 +1,30 @@
+version: '3.7'
+
+networks:
+  ph-test:
+   external: true
+services:
+  extract-linkedin:
+    container_name: ph_extract_linkedin
+    build: .
+    depends_on:
+      - selenium
+    command: >
+     sh -c "python -u ./main.py"
+    env_file:
+     - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+
+  selenium:
+    container_name: ph_selenium_linkedin
+    image: selenium/standalone-chrome
+    environment:
+      - SE_NODE_MAX_SESSIONS=2
+    ports:
+    - 4444:4444
+    shm_size: '2gb'
+    networks:
+      - ph-test

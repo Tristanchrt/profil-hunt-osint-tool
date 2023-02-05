@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: search_service
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    nodePort: 8081
+  selector:
+    app: search_service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search_service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search_service
+  template:
+    metadata:
+      labels:
+        app: search_service
+    spec:
+      containers:
+      - name: search_service
+        image: searchService:latest
+        command:
+        - sh
+        - -c
+        - uvicorn app:app --host 0.0.0.0 --port 8080 --reload
+        envFrom:
+        - configMapRef:
+            name: search_service-config
+        volumeMounts:
+        - name: search-service-volume
+          mountPath: /app
+      volumes:
+      - name: search-service-volume
+        hostPath:
+          path: .
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ph-search-data
+spec:
+  ports:
+  - port: 27017
+    nodePort: 27019
+  selector:
+    app: ph-search-data
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ph-search-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ph-search-data
+  template:
+    metadata:
+      labels:
+        app: ph-search-data
+    spec:
+      containers:
+        - name: ph-search-data
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: ph-search-data-volume
+              mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: test
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: test123
+            - name: MONGO_INITDB_DATABASE
+              value: development=testdb
+      volumes:
+        - name: ph-search-data-volume
+          hostPath:
+            path: ~/apps/search_data/mongo
+---

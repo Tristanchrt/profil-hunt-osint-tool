@@ -1,0 +1,12 @@
+python-dotenv
+pydantic[email,dotenv]~=1.9.0
+motor~=2.5.1
+passlib~=1.7.4
+beanie~=1.10.8
+kafka-python~=2.0.2
+brokerstream~=0.0.13
+pandas~=1.5.2
+imageio
+Image
+opencv-python
+# deepface

@@ -1,0 +1,17 @@
+version: '3.7'
+
+networks:
+  ph-test:
+   external: true
+services:
+  transform:
+    container_name: ph_transform
+    build: .
+    command: >
+      sh -c "python -u ./main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test

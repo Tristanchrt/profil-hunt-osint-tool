@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graph-service
+spec:
+  selector:
+    app: graph-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graph-service
+spec:
+  selector:
+    matchLabels:
+      app: graph-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: graph-service
+    spec:
+      containers:
+        - name: graph-service
+          image: .
+          command:
+            - sh
+            - -c
+            - "uvicorn app:app --host 0.0.0.0 --port 8080 --reload"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app
+          envFrom:
+            - secretRef:
+                name: graph-service-env
+      volumes:
+        - name: app-volume
+          hostPath:
+            path: .
+      imagePullSecrets:
+        - name: graph-service-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loaded
+spec:
+  selector:
+    app: loaded
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loaded
+spec:
+  selector:
+    matchLabels:
+      app: loaded
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loaded
+    spec:
+      containers:
+        - name: loaded
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: loaded-volume
+              mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: test
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: test123
+            - name: MONGO_INITDB_DATABASE
+              value: development=testdb
+      volumes:
+        - name: loaded-volume
+          hostPath:
+            path: ~/db/loaded/mongo
+      imagePullSecrets:
+        - name: loaded-secret
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datalake
+spec:
+  selector:
+    app: datalake
+  ports:
+    - protocol: TCP
+      port: 27018
+      targetPort: 27018
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datalake
+spec:
+  selector:
+    matchLabels:
+      app: datalake
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: datalake
+    spec:
+      containers:
+        - name: datalake
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: datalake-volume
+              mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: test
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: test123
+            - name: MONGO_INITDB_DATABASE
+              value: development=testdb
+      volumes:
+        - name: datalake-volume
+          hostPath:
+            path: ~/db/datalake/mongo
+      imagePullSecrets:
+        - name: datalake-secret

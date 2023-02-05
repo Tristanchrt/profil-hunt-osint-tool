@@ -1,0 +1,214 @@
+version: "3"
+
+networks:
+  ph-test:
+    external: true
+
+services:
+
+  front:
+    image: tristancht/ph-front:latest
+    container_name: ph_front
+    restart: unless-stopped
+    labels:
+        - traefik.enable=true
+        - "traefik.docker.network=net_common"
+        - "traefik.http.routers.front-https.rule=Host(`front.ph.local`)"
+        - "traefik.http.routers.front-https.service=front-service"
+        - "traefik.http.services.front-service.loadbalancer.server.port=80"
+    depends_on:
+      - traefik
+    networks:
+      - ph-test
+      
+  search_service:
+    build: ./search-service/Dockerfile
+    container_name: ph_search_service
+    ports:
+      - "8081:8080"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "uvicorn app:app --host 0.0.0.0 --port 8080 --reload"
+    depends_on:
+      - traefik
+      - search_data
+      - zookeeper
+      - kafka
+      - kafka-ui
+      - selenium
+      - graph_service
+      - front
+    restart: on-failure
+    env_file:
+      - .env
+    networks:
+      - ph-test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.search_service.rule=Host(`ph.local`) && PathPrefix(`/search`)"
+
+
+  traefik:
+    image: traefik
+    container_name: ph_traefik
+    restart: unless-stopped
+    ports:
+       - 80:80
+       - 443:443
+    # network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik:/etc/traefik/
+    networks:
+      - ph-test
+
+  search_data:
+    image: mongo
+    container_name: ph_search_data
+    ports:
+      - 27019:27017
+    volumes:
+      - ~/apps/search_data/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test123
+      - MONGO_INITDB_DATABASE=development=testdb
+    networks:
+      - ph-test
+
+  kafka:
+    image: bitnami/kafka:3.3.1
+    container_name: ph_kafka
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_KRAFT_CLUSTER_ID=r4zt_wrqTRuT7W2NJsB_GA
+    volumes:
+      - kafka-volume:/bitnami/kafka
+    networks:
+      - ph-test
+
+  kafka-ui:
+    container_name: ph_kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8085:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_NAME=r4zt_wrqTRuT7W2NJsB_GA
+    networks:
+      - ph-test
+
+  selenium:
+    container_name: ph_selenium
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
+    depends_on:
+    - extract-linkedin
+    - extract-facebook
+    - extract-insta
+    environment:
+      - SE_NODE_MAX_SESSIONS=6
+    shm_size: '2gb'
+    networks:
+      - ph-test
+
+  graph_service:
+    build:  ./graph-service/Dockerfile
+    container_name: ph_graph
+    ports:
+      - "8082:8080"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "uvicorn app:app --host 0.0.0.0 --port 8080 --reload"
+    depends_on:
+      - loaded
+      - datalake
+    env_file:
+      - .env
+    networks:
+      - ph-test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.graph_service.rule=Host(`ph.local`) && PathPrefix(`/graph`) && !Method(`OPTIONS`)"
+
+  loaded:
+    image: mongo
+    container_name: ph_loaded
+    ports:
+      - 27018:27017
+    volumes:
+      - ~/db/loaded/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test123
+      - MONGO_INITDB_DATABASE=development=testdb
+    networks:
+      - ph-test
+
+  datalake:
+    image: mongo
+    container_name: ph_datalake
+    ports:
+      - 27020:27017
+    volumes:
+      - ~/db/datalake/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test123
+      - MONGO_INITDB_DATABASE=development=testdb
+    networks:
+      - ph-test
+  
+  extract-linkedin:
+    container_name: ph_extract_linkedin
+    build:  ./extract-linkedin/Dockerfile
+    depends_on:
+      - selenium
+    command: >
+     sh -c "python -u ./main.py"
+    env_file:
+     - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+  
+  extract-insta:
+    container_name: ph_extract_insta
+    build: ./extract-insta/Dockerfile
+    command: >
+      sh -c "python -u ./main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+
+  extract-facebook:
+    container_name: ph_extract_facebook
+    build: ./extract-facebook/Dockerfile
+    command: >
+      sh -c "python -u ./main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+
+
+volumes:
+  minio_storage: {}
+  data:

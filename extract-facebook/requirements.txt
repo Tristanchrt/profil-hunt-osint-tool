@@ -1,0 +1,11 @@
+python-dotenv
+pydantic[email,dotenv]~=1.9.0
+motor~=2.5.1
+passlib~=1.7.4
+kafka-python~=2.0.2
+brokerstream~=0.0.13
+Pillow>=8.1.1
+python-facebook-api
+beautifulsoup4
+selenium==3.8.1
+lxml

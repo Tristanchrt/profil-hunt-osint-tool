@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  ph-test:
+    external: true
+
+services:
+  sc_api:
+    container_name: ph_sc_api
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/usr/src/app
+    env_file:
+    - .env
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    networks:
+      - ph-test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smart_contract_api.rule=Host(`ph.local`) && PathPrefix(`/auth`)"
+      

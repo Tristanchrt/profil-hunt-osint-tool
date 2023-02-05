@@ -1,0 +1,30 @@
+experimental:
+  http3: true
+
+entryPoints:
+  web:
+    address: ":80"
+    http3: {}
+ 
+  web-secure:
+    address: ":443"
+    http3: {}
+
+providers:
+  docker: {}
+
+api:
+  dashboard: true
+
+
+# certificatesResolvers:
+#   lets-encrypt:
+#     acme:
+#       email: contact@tristancht.fr
+#       storage: acme.json
+#       caServer: https://acme-v02.api.letsencrypt.org/directory
+#       httpChallenge:
+#         entryPoint: web
+
+log:
+ level: DEBUG

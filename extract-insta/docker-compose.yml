@@ -1,0 +1,19 @@
+version: '3.7'
+
+networks:
+  ph-test:
+   external: true
+services:
+  extract-insta:
+    container_name: ph_extract_insta
+    build: .
+    command: >
+      sh -c "python -u ./main.py"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - ph-test
+
+
