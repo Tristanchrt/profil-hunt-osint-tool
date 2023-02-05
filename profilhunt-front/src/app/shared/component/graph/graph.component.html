@@ -1,0 +1,82 @@
+<div class="mt-3 mx-auto">
+    <nz-radio-group [(ngModel)]="rankDirection">
+        <label nz-radio-button nzValue="LR">LR</label>
+        <label nz-radio-button nzValue="RL">RL</label>
+        <label nz-radio-button nzValue="TB">TB</label>
+        <label nz-radio-button nzValue="BT">BT</label>
+    </nz-radio-group>
+    <nz-graph nz-graph-zoom [nzGraphData]="graphData" [nzAutoSize]="true" [nzRankDirection]="rankDirection"
+        (nzGraphInitialized)="graphInitialized($event)">
+        <ng-container *nzGraphNode="let node">
+            <foreignObject [attr.width]="node.width" [attr.height]="node.height" [attr.x]="node.xOffset ? node.xOffset : 0" [attr.y]="node.yOffset">
+                <div class="graph-node leaf-node" (click)="focusNode(node.id || node.name)">
+                    <svg:g>
+                        <path points="node.points"></path>
+                    </svg:g>
+                    <div nz-tooltip [nzTooltipTitle]="node.name" class="title">
+                        <span>
+                            {{ node.name }}
+                        </span>
+                        <img
+                        nzDisablePreview="true"
+                        nz-image
+                        width="50px"
+                        height="50px"
+                        [nzSrc]="node.pic_url ? node.pic_url : 'https://img.freepik.com/premium-vector/male-avatar-icon-unknown-anonymous-person-default-avatar-profile-icon-social-media-user-business-man-man-profile-silhouette-isolated-white-background-vector-illustration_735449-120.jpg?w=2000'"
+                        alt=""
+                      />
+                    </div>
+                </div>
+            </foreignObject>
+        </ng-container>
+    </nz-graph>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="More information" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+      <p>Name : {{ currentNode.name }}</p>
+      <p>Pseudo : {{ currentNode.pseudo }}</p>
+      <p>Job and company : {{ currentNode.company }} | {{ currentNode.job }}</p>
+      <p>Area info : {{ currentNode.city }} | {{ currentNode.area_info }}</p>
+      <p>Country & state : {{ currentNode.country }} | {{ currentNode.state }}</p>
+      <p>{{ currentNode.insta_following }}</p>
+      <p>{{ currentNode.insta_follower }}</p>
+      <p>Overview : {{ currentNode.about_overview }}</p>
+      <p>Work & education : {{ currentNode.about_work_and_education }}</p>
+      <p>Family & RelationShips : {{ currentNode.about_family_and_relationships }}</p>
+      <p>Linkedin relation : {{ currentNode.about_family_and_relationships }}</p>
+      <p>Insta_follower : {{ currentNode.insta_follower }}</p>
+      <p>Insta_following : {{ currentNode.insta_following }}</p>
+    <img nzDisablePreview="true" nz-image width="100px" height="100px"
+        [nzSrc]="currentNode.pic_url" alt="" />
+    </ng-container>
+  </nz-modal>
+
+        <!-- "insta_follower": true,
+        "insta_following": false, -->
+<!-- "name": "Raphael Rabechault",
+"job": "Ingénieur DevSecOps",
+"company": "IDEMIA ",
+"area_info": "Osny, Île-de-France, France",
+"school": "CPE Lyon",
+"pseudo": "j_raph",
+"city": "Lyon",
+"country": "France",
+"state": "Auvergne-Rhône-Alpes",
+"about_overview": [
+"Étudie à CPE Lyon",
+"Habite à Lyon",
+"De Salon-de-Provence",
+"Célibataire"
+],
+"about_work_and_education": [
+"Étudie à CPE Lyon",
+"A étudié à Lycée Adam de Craponne"
+],
+"about_places": [
+"Lyon",
+"Salon-de-Provence"
+],
+"about_family_and_relationships": [
+"Célibataire"
+], -->

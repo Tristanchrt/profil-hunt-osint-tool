@@ -1,0 +1,17 @@
+<app-header></app-header>
+<div class="mt-5 justify-content-around d-flex mx-auto align-items-center">
+  <div class="card-deck mb-3 text-center">
+    <div *ngFor="let box of pricingBox" class="card mb-4 box-shadow">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">{{ box.name }}</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">{{ box.price | currency:  '$EGLD '  }}<small class="text-muted">/ search</small>
+        </h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <li *ngFor="let feature of box.features">{{ feature }}</li>
+        </ul>
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Stalk now</button>
+      </div>
+    </div>
+  </div>
