@@ -1,0 +1,21 @@
+<ul nz-menu nzMode="inline" class="sider-menu">
+    <li nz-submenu nzOpen nzIcon="user" nzTitle="Hunt services">
+        <ul>
+            <a routerLink="/dashboard/first-last-name"  [routerLinkActiveOptions]="{exact: true}" routerLinkActive="is-selected" class="is-not-selected mx-md-4 mx-1 sailec text-black">
+                <li nz-menu-item nzSelected>First / last name</li>
+            </a>
+            <li (click)="notAvailable('Search by Email not available')" nz-menu-item><span class="mx-1" nz-icon nzType="lock" nzTheme="outline"></span> Email</li>
+            <li (click)="notAvailable('Search by Link not available')" nz-menu-item><span class="mx-1" nz-icon nzType="lock" nzTheme="outline"></span> Link</li>
+        </ul>
+    </li>
+    <li nz-submenu nzOpen nzTitle="Research" nzIcon="laptop">
+        <ul>
+            <a routerLink="/dashboard/research-list"  [routerLinkActiveOptions]="{exact: true}" routerLinkActive="is-selected" class="is-not-selected mx-md-4 mx-1 sailec text-black">
+                <li nz-menu-item nzSelected>All research</li>
+            </a>
+            <a routerLink="/dashboard/profil"  [routerLinkActiveOptions]="{exact: true}" routerLinkActive="is-selected" class="is-not-selected mx-md-4 mx-1 sailec text-black">
+                <li nz-menu-item nzSelected>Information</li>
+            </a>
+        </ul>
+    </li>
+</ul>
