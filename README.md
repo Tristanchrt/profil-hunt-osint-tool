@@ -52,7 +52,7 @@ Profil Hunt is an OSINT (Open Source Intelligence) application that helps you fi
 ![alt text](global.png "Title")
 
 
-## How to run 
+## How to run 
 
 > Change /etc/hosts add
 ```
