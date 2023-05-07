@@ -42,12 +42,12 @@ Profil Hunt is an OSINT (Open Source Intelligence) application that helps you fi
 
 > Find target => creation of a dictonary with all the data available => transform
 
-## Transformation & Graph
+## Transformation & Graph
 
 ![alt text](transform.png "Title")
 
 
-## Global view
+## Global view
 
 ![alt text](global.png "Title")
 
