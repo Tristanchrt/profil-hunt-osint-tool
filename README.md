@@ -12,7 +12,7 @@ Profil Hunt is an OSINT (Open Source Intelligence) application that helps you fi
 - Analysis and processing of collected information **(ETL)**
 - Communication with the **MultiversX** Blockchain (formerly Elrond)
 
-### Technical choices
+### Technical choices
 
 - Angular 
 - MultiversX Blockchain (formerly Elrond)
@@ -20,7 +20,7 @@ Profil Hunt is an OSINT (Open Source Intelligence) application that helps you fi
 - Kafka
 - MongoDB
 
-## Front & Search
+## Front & Search
 
 ![alt text](front.png "Title")
 
