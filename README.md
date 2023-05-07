@@ -4,8 +4,6 @@
 
 Profil Hunt is an OSINT (Open Source Intelligence) application that helps you find information about a person by scanning different social networks. It allows you to collect information such as user names, social media profiles, images, posts, friends, and groups associated with a specific person. With its advanced algorithm, Profil Hunt enables you to find information quickly and efficiently, making it an indispensable tool for online investigators, private detectives, and employers who are looking to gather information about a person. Additionally, Profil Hunt uses Elrond Web3 technology to ensure the security and privacy of user data. MultiversX (ex Elrond) is used as payment method for start a research on person. All relevant information is collected and is public. In addition, all searches are public and the application's sole purpose is preventive.
 
-### Presentation
-
 > https://www.youtube.com/watch?v=s_-7FsZDec8
 
 ### Main features
